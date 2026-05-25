@@ -48,6 +48,7 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<string | undefined>(undefined);
   const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [loading, setLoading] = useState(true);
   const { language } = useStore();
 
   const handleAddProduct = (product: Product) => {
@@ -61,6 +62,25 @@ function App() {
   const handleDeleteProduct = (id: string) => {
     setProducts(products.filter(p => p.id !== id));
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1800);
+    if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black text-white">
+        <div className="text-center">
+          <div className="w-28 h-28 rounded-full border border-yellow-500/30 flex items-center justify-center mx-auto mb-6 glass float-animation">
+            <h1 className="text-3xl font-black gold-text">M</h1>
+          </div>
+          <h2 className="text-4xl font-black tracking-[0.3em] uppercase gold-text">Mony Stor</h2>
+          <p className="text-zinc-400 mt-4">Future Luxury Experience</p>
+        </div>
+      </div>
+    );
+  }
+
+  return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
