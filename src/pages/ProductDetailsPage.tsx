@@ -55,6 +55,22 @@ export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0]);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  
+
+  // AUTO IMAGE SLIDER
+  useEffect(() => {
+    if (!product?.images?.length) return;
+
+    const interval = setInterval(() => {
+      setSelectedImage((prev) =>
+        prev === product.images.length - 1 ? 0 : prev + 1
+      );
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, [product]);
+
+const [fullscreen, setFullscreen] = useState(false);
   const [viewersCount, setViewersCount] = useState(Math.floor(Math.random() * 15) + 8); // 8-22 viewers
   const [showRecentOrder, setShowRecentOrder] = useState(false);
   
@@ -251,7 +267,7 @@ export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
               {product.images.map((image, index) => (
                 <button
                   key={index}
-                  onClick={() => setSelectedImage(index)}
+                  onClick={() => { setSelectedImage(index); setFullscreen(true); }}
                   className={cn(
                     "aspect-square bg-neutral-100 border-2 transition-colors rounded-lg overflow-hidden",
                     selectedImage === index ? "border-pink-500" : "border-transparent hover:border-pink-300"
@@ -580,6 +596,21 @@ export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
           </div>
         )}
       </div>
-    </div>
+    
+
+      {/* FULLSCREEN IMAGE VIEWER */}
+      {fullscreen && (
+        <div
+          className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center"
+          onClick={() => setFullscreen(false)}
+        >
+          <img
+            src={product.images[selectedImage]}
+            alt=""
+            className="max-w-full max-h-full object-contain"
+          />
+        </div>
+      )}
+</div>
   );
 };

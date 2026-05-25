@@ -16,9 +16,9 @@ export const products: Product[] = [
     price: 750,
     salePrice: 600,
     images: [
-      'https://up6.cc/2026/05/177974559627882.png',
-      'https://up6.cc/2026/05/177974559636243.png',
-      'https://up6.cc/2026/05/177974559618271.png',
+      'https://f.top4top.io/p_3796418u11.jpg',
+      'https://h.top4top.io/p_3796g0lcg3.jpg',
+      'https://up6.cc/2026/05/177974379167411.jpg',
     ],
     description: 'The material is imported linen. The size is one size, comfortable for 60 kg to 80 kg..',
     descriptionAr: 'الخامه كتان مستورد المقاس وان سايز من ٦٠ك ل ٨٠ك مرتاح.',
@@ -30,9 +30,9 @@ export const products: Product[] = [
     isNew: true,
     isBestSeller: true,
     reviews: [
-      { id: '1', userName: 'Noor Mohamed.', rating: 5, comment: 'وصلني السوت وخامته تحفه.', date: '2026-05-17' },
-      { id: '2', userName: 'ِSara A.', rating: 5, comment: 'الف شكر وصلني النهارده وعجبني ومش اخر تعامل ابدا ان شاء الله', date: '2026-05-11' },
-            { id: '3', userName: 'Ola Fares.', rating: 5, comment: ' مش متعوده اعمل كومنت علي حاجه بس الصراحه عجبني جدا عكس ما اتوقعت ', date: '2026-04-10' },
+      { id: '1', userName: 'Noor Mohamed.', rating: 5, comment: 'وصلني السوت وخامته تحفه.', date: '2024-01-15' },
+      { id: '2', userName: 'ِSara A.', rating: 5, comment: 'الف شكر وصلني النهارده وعجبني ومش اخر تعامل ابدا ان شاء الله', date: '2024-01-10' },
+            { id: '3', userName: 'Ola Fares.', rating: 5, comment: ' مش متعوده اعمل كومنت علي حاجه بس الصراحه عجبني جدا عكس ما اتوقعت ', date: '2024-01-10' },
     ],
   },
   {
