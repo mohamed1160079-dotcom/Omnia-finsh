@@ -64,7 +64,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage }) => {
               <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-rose-400 blur-lg opacity-30 group-hover:opacity-50 transition-opacity"></div>
               <h1 className="relative text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 bg-clip-text text-transparent" 
                   style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                Omnia
+                Mony Stor
               </h1>
             </div>
             <div className="flex flex-col items-start">

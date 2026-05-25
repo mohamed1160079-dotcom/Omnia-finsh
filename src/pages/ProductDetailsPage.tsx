@@ -57,19 +57,6 @@ export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
   const [selectedImage, setSelectedImage] = useState(0);
   
 
-  // AUTO IMAGE SLIDER
-  useEffect(() => {
-    if (!product?.images?.length) return;
-
-    const interval = setInterval(() => {
-      setSelectedImage((prev) =>
-        prev === product.images.length - 1 ? 0 : prev + 1
-      );
-    }, 2500);
-
-    return () => clearInterval(interval);
-  }, [product]);
-
 const [fullscreen, setFullscreen] = useState(false);
   const [viewersCount, setViewersCount] = useState(Math.floor(Math.random() * 15) + 8); // 8-22 viewers
   const [showRecentOrder, setShowRecentOrder] = useState(false);
@@ -258,12 +245,12 @@ const [fullscreen, setFullscreen] = useState(false);
           <div>
             <div
               onClick={() => setFullscreen(true)}
-              className="group relative aspect-[3/4] bg-neutral-100 mb-5 overflow-hidden rounded-3xl cursor-zoom-in shadow-xl"
+              className="group relative aspect-[3/4] bg-neutral-100 mb-5 overflow-hidden rounded-[2.5rem] cursor-zoom-in shadow-[0_25px_80px_rgba(0,0,0,0.18)] ring-1 ring-white/60 backdrop-blur-sm before:absolute before:inset-0 before:rounded-[2.5rem] before:p-[1px] before:bg-gradient-to-br before:from-white/80 before:via-pink-100/40 before:to-black/5"
             >
               <img
                 src={product.images[selectedImage]}
                 alt={product.name}
-                className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
+                className="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.08]"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
@@ -279,7 +266,7 @@ const [fullscreen, setFullscreen] = useState(false);
                   key={index}
                   onClick={() => setSelectedImage(index)}
                   className={cn(
-                    "group aspect-square bg-neutral-100 border rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl",
+                    "group aspect-square bg-neutral-100 border rounded-[1.7rem] overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.18)] ring-1 ring-white/50",
                     selectedImage === index
                       ? "border-pink-500 ring-4 ring-pink-100 shadow-xl scale-105"
                       : "border-transparent hover:border-pink-300"

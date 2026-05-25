@@ -50,3 +50,14 @@
     }
   }
 }
+
+
+@layer base {
+  img {
+    border-radius: 1.25rem;
+  }
+
+  .product-image-premium img {
+    border-radius: 2.5rem;
+  }
+}

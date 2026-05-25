@@ -222,7 +222,7 @@ function App() {
                 <div className="inline-flex items-center gap-3 mb-4">
                   <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 bg-clip-text text-transparent" 
                       style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                    Omnia Store
+                    Mony Stor
                   </h1>
                 </div>
                 <p className="text-pink-500 font-medium tracking-widest text-sm">PREMIUM FASHION</p>
@@ -230,7 +230,7 @@ function App() {
               <div className="prose max-w-none">
                 <p className="text-lg text-gray-700 mb-6">
                   {language === 'en' 
-                    ? 'Omnia Store is a premium women\'s fashion brand dedicated to creating timeless, elegant pieces for the modern, sophisticated woman. Our collections feature luxurious fabrics, impeccable tailoring, and designs that celebrate femininity and grace.'
+                    ? 'Mony Stor is a premium women\'s fashion brand dedicated to creating timeless, elegant pieces for the modern, sophisticated woman. Our collections feature luxurious fabrics, impeccable tailoring, and designs that celebrate femininity and grace.'
                     : 'أومنيا ستور هي علامة تجارية فاخرة للأزياء النسائية مكرسة لإنشاء قطع خالدة وأنيقة للمرأة العصرية المتطورة. تتميز مجموعاتنا بأقمشة فاخرة وتفصيل لا تشوبه شائبة وتصاميم تحتفي بالأنوثة والرقي.'}
                 </p>
                 <p className="text-lg text-gray-700 mb-6">
@@ -240,7 +240,7 @@ function App() {
                 </p>
                 <p className="text-lg text-gray-700">
                   {language === 'en'
-                    ? 'We believe that luxury should be accessible, and style should be effortless. Thank you for choosing Omnia Store.'
+                    ? 'We believe that luxury should be accessible, and style should be effortless. Thank you for choosing Mony Stor.'
                     : 'نؤمن بأن الفخامة يجب أن تكون في متناول الجميع، والأناقة يجب أن تكون سهلة. شكراً لاختيارك أومنيا ستور.'}
                 </p>
               </div>
