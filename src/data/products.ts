@@ -41,8 +41,13 @@ export const products: Product[] = [
     nameAr: 'حجاب ساتان فاخر',
     price: 450,
     images: [
-      'https://images.unsplash.com/photo-1583292650898-7d22cd27ca6f?w=800&h=1000&fit=crop',
-      'https://images.unsplash.com/photo-1601513445506-2ab0d4fb4229?w=800&h=1000&fit=crop',
+      'https://up6.cc/2026/05/17797515863161.jpg',
+      'https://up6.cc/2026/05/177975158636512.jpg',
+      'https://up6.cc/2026/05/177975158643623.jpg',
+      'https://up6.cc/2026/05/177975158647444.jpg',
+      'https://up6.cc/2026/05/177975163715271.jpg',
+      'https://up6.cc/2026/05/177975163723642.jpg',
+
     ],
     description: 'Premium quality satin hijab with a luxurious feel. Soft, breathable, and easy to style. Available in multiple colors.',
     descriptionAr: 'حجاب ساتان فاخر بملمس راقي. ناعم ومريح وسهل التنسيق.',
