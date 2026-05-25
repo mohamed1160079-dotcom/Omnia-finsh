@@ -30,9 +30,9 @@ export const products: Product[] = [
     isNew: true,
     isBestSeller: true,
     reviews: [
-      { id: '1', userName: 'Noor Mohamed.', rating: 5, comment: 'وصلني السوت وخامته تحفه.', date: '2024-01-15' },
-      { id: '2', userName: 'ِSara A.', rating: 5, comment: 'الف شكر وصلني النهارده وعجبني ومش اخر تعامل ابدا ان شاء الله', date: '2024-01-10' },
-            { id: '3', userName: 'Ola Fares.', rating: 5, comment: ' مش متعوده اعمل كومنت علي حاجه بس الصراحه عجبني جدا عكس ما اتوقعت ', date: '2024-01-10' },
+      { id: '1', userName: 'Noor Mohamed.', rating: 5, comment: 'وصلني السوت وخامته تحفه.', date: '2026-05-17' },
+      { id: '2', userName: 'ِSara A.', rating: 5, comment: 'الف شكر وصلني النهارده وعجبني ومش اخر تعامل ابدا ان شاء الله', date: '2026-05-11' },
+            { id: '3', userName: 'Ola Fares.', rating: 5, comment: ' مش متعوده اعمل كومنت علي حاجه بس الصراحه عجبني جدا عكس ما اتوقعت ', date: '2026-04-10' },
     ],
   },
   {
