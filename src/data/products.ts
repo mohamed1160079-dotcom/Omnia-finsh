@@ -18,7 +18,7 @@ export const products: Product[] = [
     images: [
       'https://f.top4top.io/p_3796418u11.jpg',
       'https://h.top4top.io/p_3796g0lcg3.jpg',
-      'https://k.top4top.io/p_37966lq706.jpg',
+      'https://up6.cc/2026/05/177974379167411.jpg',
     ],
     description: 'The material is imported linen. The size is one size, comfortable for 60 kg to 80 kg..',
     descriptionAr: 'الخامه كتان مستورد المقاس وان سايز من ٦٠ك ل ٨٠ك مرتاح.',

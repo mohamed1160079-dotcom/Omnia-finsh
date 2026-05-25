@@ -32,7 +32,19 @@ const syncUrl = (page: string, product?: Product | null) => {
 type Page = 'home' | 'shop' | 'new-arrivals' | 'best-sellers' | 'product-details' | 'checkout' | 'account' | 'wishlist' | 'admin' | 'search' | 'about' | 'contact' | 'shipping' | 'returns' | 'faq' | string;
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('home');
+  const getInitialPage = (): Page => {
+    const path = window.location.pathname;
+
+    if (path.startsWith('/product/')) return 'product-details';
+    if (path === '/shop') return 'shop';
+    if (path === '/wishlist') return 'wishlist';
+    if (path === '/account') return 'account';
+    if (path === '/checkout') return 'checkout';
+
+    return 'home';
+  };
+
+  const [currentPage, setCurrentPage] = useState<Page>(getInitialPage());
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<string | undefined>(undefined);
   const [products, setProducts] = useState<Product[]>(initialProducts);
