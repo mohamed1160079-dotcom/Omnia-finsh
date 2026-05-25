@@ -52,40 +52,62 @@
 }
 
 
-/* MONY STOR PREMIUM UI */
-html{
-scroll-behavior:smooth;
+@layer base {
+  img {
+    border-radius: 1.25rem;
+  }
+
+  .product-image-premium img {
+    border-radius: 2.5rem;
+  }
 }
-body{
-background: linear-gradient(135deg,#050505,#111,#1a1a1a);
+
+
+
+/* ===== MOBILE STABILITY FIX ===== */
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
 }
-img{
-border-radius:28px !important;
-transition:all .45s ease !important;
+
+* {
+  box-sizing: border-box;
 }
-img:hover{
-transform:scale(1.02);
-filter:brightness(1.05);
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
 }
-.product-image,.main-image,.hero-image{
-border-radius:32px !important;
-box-shadow:0 20px 60px rgba(0,0,0,.45);
-overflow:hidden;
+
+section,
+div,
+main,
+header,
+footer {
+  max-width: 100%;
 }
-button{
-transition:all .3s ease;
+
+body {
+  overscroll-behavior-x: none;
+  touch-action: pan-y;
+  position: relative;
 }
-button:hover{
-transform:translateY(-2px);
-box-shadow:0 10px 30px rgba(255,255,255,.15);
-}
-.logo,.brand-title,h1{
-background:linear-gradient(90deg,#fff,#999,#fff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-font-weight:900 !important;
-letter-spacing:1px;
-}
-*{
-scrollbar-width:thin;
+
+/* Smooth mobile experience */
+@media (max-width: 768px) {
+  * {
+    min-width: 0 !important;
+  }
+
+  .container,
+  .wrapper,
+  .content {
+    overflow-x: hidden !important;
+  }
 }
