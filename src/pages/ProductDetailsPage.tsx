@@ -55,7 +55,6 @@ export const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0]);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
-  
 
 const [fullscreen, setFullscreen] = useState(false);
   const [viewersCount, setViewersCount] = useState(Math.floor(Math.random() * 15) + 8); // 8-22 viewers
@@ -243,40 +242,24 @@ const [fullscreen, setFullscreen] = useState(false);
         <div className="grid md:grid-cols-2 gap-12 mb-20">
           {/* Images */}
           <div>
-            <div
-              onClick={() => setFullscreen(true)}
-              className="group relative aspect-[3/4] bg-neutral-100 mb-5 overflow-hidden rounded-[2.5rem] cursor-zoom-in shadow-[0_25px_80px_rgba(0,0,0,0.18)] ring-1 ring-white/60 backdrop-blur-sm before:absolute before:inset-0 before:rounded-[2.5rem] before:p-[1px] before:bg-gradient-to-br before:from-white/80 before:via-pink-100/40 before:to-black/5"
-            >
+            <div className="aspect-[3/4] bg-neutral-100 mb-4">
               <img
                 src={product.images[selectedImage]}
                 alt={product.name}
-                className="relative z-10 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.08]"
+                className="w-full h-full object-cover"
               />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
-
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-sm font-medium shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-3 group-hover:translate-y-0">
-                {language === 'en' ? 'Click to view full screen' : 'اضغط لعرض ملء الشاشة'}
-              </div>
             </div>
-
             <div className="grid grid-cols-4 gap-4">
               {product.images.map((image, index) => (
                 <button
                   key={index}
-                  onClick={() => setSelectedImage(index)}
+                  onClick={() => { setSelectedImage(index); setFullscreen(true); }}
                   className={cn(
-                    "group aspect-square bg-neutral-100 border rounded-[1.7rem] overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.18)] ring-1 ring-white/50",
-                    selectedImage === index
-                      ? "border-pink-500 ring-4 ring-pink-100 shadow-xl scale-105"
-                      : "border-transparent hover:border-pink-300"
+                    "aspect-square bg-neutral-100 border-2 transition-colors rounded-lg overflow-hidden",
+                    selectedImage === index ? "border-pink-500" : "border-transparent hover:border-pink-300"
                   )}
                 >
-                  <img
-                    src={image}
-                    alt={`${product.name} ${index + 1}`}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+                  <img src={image} alt={`${product.name} ${index + 1}`} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
@@ -604,20 +587,13 @@ const [fullscreen, setFullscreen] = useState(false);
       {/* FULLSCREEN IMAGE VIEWER */}
       {fullscreen && (
         <div
-          className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-300"
+          className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center"
           onClick={() => setFullscreen(false)}
         >
-          <button
-            onClick={() => setFullscreen(false)}
-            className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white text-2xl transition-all duration-300"
-          >
-            ×
-          </button>
-
           <img
             src={product.images[selectedImage]}
             alt=""
-            className="max-w-full max-h-[92vh] object-contain rounded-2xl shadow-2xl animate-in zoom-in-95 duration-300"
+            className="max-w-full max-h-full object-contain"
           />
         </div>
       )}

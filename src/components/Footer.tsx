@@ -54,9 +54,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           {/* About */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <h4 className="text-3xl font-black tracking-[0.25em] uppercase bg-gradient-to-r from-fuchsia-500 via-pink-500 to-rose-400 bg-clip-text text-transparent drop-shadow-lg bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent" 
+              <h4 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent" 
                   style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                Mony Stor
+                Mony
               </h4>
               <span className="text-xs font-semibold text-gray-500 tracking-wider">STORE</span>
             </div>
@@ -125,8 +125,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2 text-gray-600">
                 <Mail size={18} className="mt-0.5 flex-shrink-0" />
-                <a href="mailto:info@monystor.com" className="hover:text-pink-500 transition-colors">
-                  info@monystor.com
+                <a href="mailto:info@omniastore.com" className="hover:text-pink-500 transition-colors">
+                  info@omniastore.com
                 </a>
               </li>
               <li className="flex items-start gap-2 text-gray-600">

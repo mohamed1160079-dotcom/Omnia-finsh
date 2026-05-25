@@ -52,12 +52,40 @@
 }
 
 
-@layer base {
-  img {
-    border-radius: 1.25rem;
-  }
-
-  .product-image-premium img {
-    border-radius: 2.5rem;
-  }
+/* MONY STOR PREMIUM UI */
+html{
+scroll-behavior:smooth;
+}
+body{
+background: linear-gradient(135deg,#050505,#111,#1a1a1a);
+}
+img{
+border-radius:28px !important;
+transition:all .45s ease !important;
+}
+img:hover{
+transform:scale(1.02);
+filter:brightness(1.05);
+}
+.product-image,.main-image,.hero-image{
+border-radius:32px !important;
+box-shadow:0 20px 60px rgba(0,0,0,.45);
+overflow:hidden;
+}
+button{
+transition:all .3s ease;
+}
+button:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 30px rgba(255,255,255,.15);
+}
+.logo,.brand-title,h1{
+background:linear-gradient(90deg,#fff,#999,#fff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+font-weight:900 !important;
+letter-spacing:1px;
+}
+*{
+scrollbar-width:thin;
 }
