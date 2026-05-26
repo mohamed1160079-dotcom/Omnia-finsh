@@ -62,13 +62,13 @@ export const products: Product[] = [
   {
     id: '3',
     name: 'Two-Piece Luxury Set',
-    nameAr: 'طقم فاخر من قطعتين',
+    nameAr: 'فستان بمناسبة كيكة امنية',
     price: 1899,
     salePrice: 1599,
     images: [
       'https://i.postimg.cc/Y0NB1FB7/photo-2026-05-26-02-49-59.jpg',
-      'https://postimg.cc/fSbPsJbg',
-      'https://postimg.cc/wRBrz7B2',
+      'https://i.postimg.cc/PJbnmDsg/photo-2026-05-26-02-50-04.jpg',
+      'https://i.postimg.cc/cC7GQ3GZ/photo-2026-05-26-02-50-01.jpg',
     ],
     description: 'Sophisticated two-piece set with modern tailoring. Includes blazer and high-waisted trousers. Perfect for professional settings.',
     descriptionAr: 'طقم أنيق من قطعتين بتصميم عصري. يتضمن بليزر وبنطال عالي الخصر.',
