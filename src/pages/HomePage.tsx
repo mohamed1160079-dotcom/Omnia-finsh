@@ -58,12 +58,12 @@ export const HomePage: React.FC<HomePageProps> = ({ products, onViewProduct, onN
         </div>
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <h1 
-            className="text-5xl md:text-7xl lg:text-8xl font-light mb-6 tracking-wide"
+            className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-light mb-4 md:mb-6 tracking-wide leading-tight px-2"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
             {language === 'en' ? 'Timeless Elegance' : 'أناقة خالدة'}
           </h1>
-          <p className="text-lg md:text-xl mb-8 font-light tracking-wide max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-xl mb-6 md:mb-8 font-light tracking-wide max-w-xl md:max-w-2xl mx-auto px-3 leading-relaxed">
             {language === 'en'
               ? 'Discover luxury fashion crafted for the modern, sophisticated woman'
               : 'اكتشف الأزياء الفاخرة المصممة للمرأة العصرية المتطورة'}

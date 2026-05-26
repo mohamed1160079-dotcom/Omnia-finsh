@@ -56,7 +56,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <div className="flex items-center gap-2 mb-4">
               <h4 className="text-3xl font-black tracking-[0.25em] uppercase bg-gradient-to-r from-fuchsia-500 via-pink-500 to-rose-400 bg-clip-text text-transparent drop-shadow-lg bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent" 
                   style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                Mony Stor
+                Mony Store
               </h4>
               <span className="text-xs font-semibold text-gray-500 tracking-wider">STORE</span>
             </div>
