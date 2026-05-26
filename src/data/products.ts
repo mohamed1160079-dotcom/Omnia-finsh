@@ -66,8 +66,9 @@ export const products: Product[] = [
     price: 1899,
     salePrice: 1599,
     images: [
-      'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=800&h=1000&fit=crop',
-      'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=800&h=1000&fit=crop',
+      'https://i.postimg.cc/Y0NB1FB7/photo-2026-05-26-02-49-59.jpg',
+      'https://postimg.cc/fSbPsJbg',
+      'https://postimg.cc/wRBrz7B2',
     ],
     description: 'Sophisticated two-piece set with modern tailoring. Includes blazer and high-waisted trousers. Perfect for professional settings.',
     descriptionAr: 'طقم أنيق من قطعتين بتصميم عصري. يتضمن بليزر وبنطال عالي الخصر.',
