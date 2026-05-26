@@ -65,6 +65,13 @@ function App() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentPage]);
+  useEffect(() => {
+    document.documentElement.setAttribute("translate", "no");
+    document.documentElement.setAttribute("lang", language === "ar" ? "ar" : "en");
+    document.documentElement.setAttribute("dir", language === "ar" ? "rtl" : "ltr");
+    document.body.classList.add("notranslate");
+  }, [language]);
+
 
   useEffect(() => {
     const handleRoute = () => {
