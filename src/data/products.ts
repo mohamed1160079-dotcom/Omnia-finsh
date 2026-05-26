@@ -41,7 +41,7 @@ export const products: Product[] = [
     nameAr: 'حجاب ساتان فاخر',
     price: 450,
     images: [
-      'https://i.postimg.cc/1RvHztqF/photo-2026-04-15-13-46-25.jpg',
+      'https://up6.cc/2026/05/177975158636512.jpg',
       'https://up6.cc/2026/05/177975158636512.jpg',
       'https://up6.cc/2026/05/177975158643623.jpg',
       'https://up6.cc/2026/05/177975158647444.jpg',
