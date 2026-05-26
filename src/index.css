@@ -111,3 +111,26 @@ body {
     overflow-x: hidden !important;
   }
 }
+
+
+/* Prevent Chrome auto translation issues */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.notranslate {
+  translate: no;
+}
+
+img,
+video,
+canvas,
+iframe {
+  max-width: 100%;
+}
+
+* {
+  min-width: 0;
+}
