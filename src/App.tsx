@@ -1,299 +1,316 @@
-import { useState, useEffect } from 'react';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
-import { CartSidebar } from './components/CartSidebar';
-import { HomePage } from './pages/HomePage';
-import { ShopPage } from './pages/ShopPage';
-import { ProductDetailsPage } from './pages/ProductDetailsPage';
-import { CheckoutPage } from './pages/CheckoutPage';
-import { AccountPage } from './pages/AccountPage';
-import { WishlistPage } from './pages/WishlistPage';
-import { AdminPage } from './pages/AdminPage';
-import { SearchPage } from './pages/SearchPage';
-import { products as initialProducts } from './data/products';
-import { Product } from './types';
-import { useStore } from './store/useStore';
+import { useState, useEffect, useCallback } from 'react';
+import { LanguageProvider, useLang } from './context/LanguageContext';
+import { CartProvider, useCart, Product } from './context/CartContext';
+import { products } from './data/products';
+import SplashScreen from './components/SplashScreen';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import Features from './components/Features';
+import Categories from './components/Categories';
+import ProductGrid from './components/ProductGrid';
+import FlashSale from './components/FlashSale';
+import PromoBanner from './components/PromoBanner';
+import Testimonials from './components/Testimonials';
+import Footer from './components/Footer';
+import CartSidebar from './components/CartSidebar';
+import Checkout from './components/Checkout';
+import OrderSuccess from './components/OrderSuccess';
+import ProductDetails from './components/ProductDetails';
+import ProductCard from './components/ProductCard';
+import MobileBottomNav from './components/MobileBottomNav';
 
+// Generate slug from product name
+function toSlug(name: string): string {
+  return name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\u0600-\u06FF-]/g, '');
+}
 
-const getProductUrl = (product: Product) => `/product/${product.id}`;
+// Parse current hash route
+function parseHash(): { page: string; productId?: number } {
+  const hash = window.location.hash.replace('#', '') || '/';
+  if (hash === '/' || hash === '') return { page: 'home' };
+  if (hash === '/shop') return { page: 'shop' };
+  if (hash === '/sale') return { page: 'sale' };
+  if (hash === '/about') return { page: 'about' };
+  if (hash === '/wishlist') return { page: 'wishlist' };
+  if (hash === '/checkout') return { page: 'checkout' };
+  if (hash === '/order-success') return { page: 'orderSuccess' };
+  if (hash.startsWith('/product/')) {
+    const slug = hash.replace('/product/', '');
+    const found = products.find(p => toSlug(p.nameEn) === slug || String(p.id) === slug);
+    if (found) return { page: 'productDetails', productId: found.id };
+  }
+  return { page: 'home' };
+}
 
-const syncUrl = (page: string, product?: Product | null) => {
-  let path = '/';
+function AppContent() {
+  const [showSplash, setShowSplash] = useState(true);
+  const [cartOpen, setCartOpen] = useState(false);
 
-  if (page === 'shop') path = '/shop';
-  else if (page === 'wishlist') path = '/wishlist';
-  else if (page === 'account') path = '/account';
-  else if (page === 'checkout') path = '/checkout';
-  else if (page === 'product-details' && product) path = getProductUrl(product);
-
-  window.history.pushState({}, '', path);
-};
-
-type Page = 'home' | 'shop' | 'new-arrivals' | 'best-sellers' | 'product-details' | 'checkout' | 'account' | 'wishlist' | 'admin' | 'search' | 'about' | 'contact' | 'shipping' | 'returns' | 'faq' | string;
-
-function App() {
-  const getInitialPage = (): Page => {
-    const path = window.location.pathname;
-
-    if (path.startsWith('/product/')) return 'product-details';
-    if (path === '/shop') return 'shop';
-    if (path === '/wishlist') return 'wishlist';
-    if (path === '/account') return 'account';
-    if (path === '/checkout') return 'checkout';
-
-    return 'home';
-  };
-
-  const [currentPage, setCurrentPage] = useState<Page>(getInitialPage());
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [categoryFilter, setCategoryFilter] = useState<string | undefined>(undefined);
-  const [products, setProducts] = useState<Product[]>(initialProducts);
-  const { language } = useStore();
-
-  const handleAddProduct = (product: Product) => {
-    setProducts([...products, product]);
-  };
-
-  const handleEditProduct = (id: string, updatedProduct: Product) => {
-    setProducts(products.map(p => p.id === id ? updatedProduct : p));
-  };
-
-  const handleDeleteProduct = (id: string) => {
-    setProducts(products.filter(p => p.id !== id));
-  };
+  // Parse initial route from hash
+  const initial = parseHash();
+  const [currentPage, setCurrentPage] = useState(initial.page);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(
+    initial.productId ? products.find(p => p.id === initial.productId) || null : null
+  );
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentPage]);
+    const timer = setTimeout(() => setShowSplash(false), 1800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Listen for browser back/forward
   useEffect(() => {
-    document.documentElement.setAttribute("translate", "no");
-    document.documentElement.setAttribute("lang", language === "ar" ? "ar" : "en");
-    document.documentElement.setAttribute("dir", language === "ar" ? "rtl" : "ltr");
-    document.body.classList.add("notranslate");
-  }, [language]);
-
-
-  useEffect(() => {
-    const handleRoute = () => {
-      const path = window.location.pathname;
-
-      if (path.startsWith('/product/')) {
-        const productId = path.split('/product/')[1];
-        const foundProduct = products.find(p => p.id === productId);
-
-        if (foundProduct) {
-          setSelectedProduct(foundProduct);
-          setCurrentPage('product-details');
-          return;
-        }
+    const onHashChange = () => {
+      const parsed = parseHash();
+      setCurrentPage(parsed.page);
+      if (parsed.productId) {
+        setSelectedProduct(products.find(p => p.id === parsed.productId) || null);
+      } else {
+        setSelectedProduct(null);
       }
-
-      if (path === '/shop') setCurrentPage('shop');
-      else if (path === '/wishlist') setCurrentPage('wishlist');
-      else if (path === '/account') setCurrentPage('account');
-      else if (path === '/checkout') setCurrentPage('checkout');
-      else setCurrentPage('home');
     };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
 
-    handleRoute();
+  // Navigate helper — updates hash which triggers state via hashchange
+  const navigate = useCallback((hash: string) => {
+    window.location.hash = hash;
+    window.scrollTo(0, 0);
+  }, []);
 
-    window.addEventListener('popstate', handleRoute);
-
-    return () => window.removeEventListener('popstate', handleRoute);
-  }, [products]);
-
-  const handleNavigate = (page: string) => {
-    if (page.startsWith('category-')) {
-      const category = page.replace('category-', '');
-      setCategoryFilter(category);
-      setCurrentPage('shop');
-      syncUrl('shop');
-    } else {
-      setCategoryFilter(undefined);
-      setCurrentPage(page as Page);
-      syncUrl(page);
-    }
+  const handlePageChange = (page: string) => {
+    const routes: Record<string, string> = {
+      home: '/',
+      shop: '/shop',
+      sale: '/sale',
+      about: '/about',
+      wishlist: '/wishlist',
+    };
+    navigate(routes[page] || '/');
   };
 
-  const handleViewProduct = (product: Product) => {
-    setSelectedProduct(product);
-    setCurrentPage('product-details');
-    syncUrl('product-details', product);
+  const handleCheckout = () => {
+    setCartOpen(false);
+    navigate('/checkout');
+  };
+
+  const handleOrderSuccess = () => {
+    navigate('/order-success');
+  };
+
+  const handleProductClick = (product: Product) => {
+    navigate(`/product/${toSlug(product.nameEn)}`);
   };
 
   const handleBackFromProduct = () => {
-    setCurrentPage('shop');
-    setSelectedProduct(null);
-    syncUrl('shop');
+    navigate('/shop');
   };
 
-  const handleBackFromCheckout = () => {
-    setCurrentPage('home');
-    syncUrl('home');
+  const handleBuyNow = () => {
+    navigate('/checkout');
   };
 
-  const getRelatedProducts = (product: Product) => {
-    return products
-      .filter(p => p.category === product.category && p.id !== product.id)
-      .slice(0, 4);
-  };
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return (
-          <HomePage
-            products={products}
-            onViewProduct={handleViewProduct}
-            onNavigate={handleNavigate}
-          />
-        );
-
-      case 'shop':
-        return (
-          <ShopPage
-            products={products}
-            onViewProduct={handleViewProduct}
-            categoryFilter={categoryFilter}
-          />
-        );
-
-      case 'new-arrivals':
-        return (
-          <ShopPage
-            products={products.filter(p => p.isNew)}
-            onViewProduct={handleViewProduct}
-          />
-        );
-
-      case 'best-sellers':
-        return (
-          <ShopPage
-            products={products.filter(p => p.isBestSeller)}
-            onViewProduct={handleViewProduct}
-          />
-        );
-
-      case 'product-details':
-        if (!selectedProduct) {
-          setCurrentPage('shop');
-          return null;
-        }
-        return (
-          <ProductDetailsPage
-            product={selectedProduct}
-            relatedProducts={getRelatedProducts(selectedProduct)}
-            onViewProduct={handleViewProduct}
-            onBack={handleBackFromProduct}
-          />
-        );
-
-      case 'checkout':
-        return <CheckoutPage onBack={handleBackFromCheckout} />;
-
-      case 'account':
-        return <AccountPage />;
-
-      case 'wishlist':
-        return (
-          <WishlistPage
-            onViewProduct={handleViewProduct}
-            onNavigate={handleNavigate}
-          />
-        );
-
-      case 'admin':
-        return (
-          <AdminPage
-            products={products}
-            onAddProduct={handleAddProduct}
-            onEditProduct={handleEditProduct}
-            onDeleteProduct={handleDeleteProduct}
-          />
-        );
-
-      case 'search':
-        return (
-          <SearchPage
-            products={products}
-            onViewProduct={handleViewProduct}
-            onClose={() => setCurrentPage('home')}
-          />
-        );
-
-      case 'about':
-        return (
-          <div className="min-h-screen py-20 px-4">
-            <div className="container mx-auto max-w-4xl">
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center gap-3 mb-4">
-                  <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 bg-clip-text text-transparent" 
-                      style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                    Mony Store
-                  </h1>
-                </div>
-                <p className="text-pink-500 font-medium tracking-widest text-sm">PREMIUM FASHION</p>
-              </div>
-              <div className="prose max-w-none">
-                <p className="text-lg text-gray-700 mb-6">
-                  {language === 'en' 
-                    ? 'Mony Store is a premium women\'s fashion brand dedicated to creating timeless, elegant pieces for the modern, sophisticated woman. Our collections feature luxurious fabrics, impeccable tailoring, and designs that celebrate femininity and grace.'
-                    : 'أومنيا ستور هي علامة تجارية فاخرة للأزياء النسائية مكرسة لإنشاء قطع خالدة وأنيقة للمرأة العصرية المتطورة. تتميز مجموعاتنا بأقمشة فاخرة وتفصيل لا تشوبه شائبة وتصاميم تحتفي بالأنوثة والرقي.'}
-                </p>
-                <p className="text-lg text-gray-700 mb-6">
-                  {language === 'en'
-                    ? 'Founded with a vision to provide high-quality, modest luxury fashion, we carefully curate each piece to ensure it meets our standards of excellence. From elegant evening wear to everyday essentials, every item in our collection is designed to make you feel confident and beautiful.'
-                    : 'تأسست برؤية لتوفير أزياء فاخرة عالية الجودة ومحتشمة، نختار بعناية كل قطعة لضمان أنها تلبي معايير التميز لدينا. من الأزياء المسائية الأنيقة إلى الأساسيات اليومية، كل عنصر في مجموعتنا مصمم لتشعري بالثقة والجمال.'}
-                </p>
-                <p className="text-lg text-gray-700">
-                  {language === 'en'
-                    ? 'We believe that luxury should be accessible, and style should be effortless. Thank you for choosing Mony Store.'
-                    : 'نؤمن بأن الفخامة يجب أن تكون في متناول الجميع، والأناقة يجب أن تكون سهلة. شكراً لاختيارك أومنيا ستور.'}
-                </p>
-              </div>
-            </div>
-          </div>
-        );
-
-      case 'contact':
-      case 'shipping':
-      case 'returns':
-      case 'faq':
-        return (
-          <div className="min-h-screen py-20 px-4">
-            <div className="container mx-auto max-w-4xl text-center">
-              <h1 
-                className="text-4xl md:text-5xl font-light mb-8"
-                style={{ fontFamily: "'Cormorant Garamond', serif" }}
-              >
-                {currentPage.charAt(0).toUpperCase() + currentPage.slice(1)}
-              </h1>
-              <p className="text-gray-600">This page is under construction.</p>
-            </div>
-          </div>
-        );
-
-      default:
-        return (
-          <HomePage
-            products={products}
-            onViewProduct={handleViewProduct}
-            onNavigate={handleNavigate}
-          />
-        );
+  // Update page title
+  useEffect(() => {
+    const titles: Record<string, string> = {
+      home: 'Mony Store | متجر موني',
+      shop: 'Shop | تسوقي - Mony Store',
+      sale: 'Sale | عروض - Mony Store',
+      about: 'About | عنا - Mony Store',
+      wishlist: 'Wishlist | المفضلة - Mony Store',
+      checkout: 'Checkout | الطلب - Mony Store',
+      orderSuccess: 'Order Confirmed ❤️ - Mony Store',
+    };
+    if (currentPage === 'productDetails' && selectedProduct) {
+      document.title = `${selectedProduct.nameAr} - Mony Store`;
+    } else {
+      document.title = titles[currentPage] || 'Mony Store';
     }
-  };
+  }, [currentPage, selectedProduct]);
+
+  const showHeader = currentPage !== 'orderSuccess';
+  const showFooter = !['checkout', 'orderSuccess', 'productDetails'].includes(currentPage);
+  const showBottomNav = !['checkout', 'orderSuccess', 'productDetails'].includes(currentPage);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <Header onNavigate={handleNavigate} currentPage={currentPage} />
-      <main className="flex-1 pt-[104px]">
-        {renderPage()}
-      </main>
-      <Footer onNavigate={handleNavigate} />
-      <CartSidebar onNavigate={handleNavigate} />
+    <div className="min-h-screen bg-[#FFF8F0]" style={{ overflowX: 'hidden' }}>
+      <SplashScreen isVisible={showSplash} />
+
+      {showHeader && (
+        <Header
+          onCartOpen={() => setCartOpen(true)}
+          onPageChange={handlePageChange}
+          currentPage={currentPage}
+        />
+      )}
+
+      {currentPage === 'home' && (
+        <main>
+          <Hero onShopNow={() => handlePageChange('shop')} />
+          <Features />
+          <Categories onCategoryClick={() => handlePageChange('shop')} />
+          <ProductGrid
+            title="🔥 الأكثر مبيعاً | Trending Now"
+            limit={3}
+            onProductClick={handleProductClick}
+          />
+          <PromoBanner onShopNow={() => handlePageChange('shop')} />
+          <FlashSale onProductClick={handleProductClick} />
+          <Testimonials />
+        </main>
+      )}
+
+      {currentPage === 'shop' && (
+        <main>
+          <ProductGrid
+            title="🛍️ جميع المنتجات | All Products"
+            showFilter
+            onProductClick={handleProductClick}
+          />
+        </main>
+      )}
+
+      {currentPage === 'sale' && (
+        <main>
+          <FlashSale onProductClick={handleProductClick} />
+          <ProductGrid
+            title="🏷️ عروض خاصة | Special Offers"
+            onProductClick={handleProductClick}
+          />
+        </main>
+      )}
+
+      {currentPage === 'about' && (
+        <main className="py-12 sm:py-16">
+          <AboutSection />
+        </main>
+      )}
+
+      {currentPage === 'wishlist' && (
+        <main className="py-12 sm:py-16">
+          <WishlistSection onProductClick={handleProductClick} />
+        </main>
+      )}
+
+      {currentPage === 'productDetails' && selectedProduct && (
+        <ProductDetails
+          product={selectedProduct}
+          onBack={handleBackFromProduct}
+          onQuickView={handleProductClick}
+          onBuyNow={handleBuyNow}
+        />
+      )}
+
+      {currentPage === 'checkout' && (
+        <Checkout
+          onBack={() => handlePageChange('home')}
+          onOrderSuccess={handleOrderSuccess}
+        />
+      )}
+
+      {currentPage === 'orderSuccess' && (
+        <OrderSuccess onBackHome={() => handlePageChange('home')} />
+      )}
+
+      {showFooter && <Footer onPageChange={handlePageChange} />}
+
+      <CartSidebar
+        isOpen={cartOpen}
+        onClose={() => setCartOpen(false)}
+        onCheckout={handleCheckout}
+      />
+
+      {showBottomNav && (
+        <MobileBottomNav
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+          onCartOpen={() => setCartOpen(true)}
+        />
+      )}
+
+      {showBottomNav && <div className="h-16 md:hidden" />}
     </div>
   );
 }
 
-export default App;
+function AboutSection() {
+  const { isRTL } = useLang();
+  return (
+    <div className="container mx-auto px-3 sm:px-4">
+      <div className="max-w-2xl mx-auto text-center">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-5 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shadow-xl shadow-pink-200/50">
+          M
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3">Mony Store</h1>
+        <p className="text-sm sm:text-base text-pink-500 font-medium mb-6">✨ Limitless Elegance ✨</p>
+        <div className="bg-white rounded-xl sm:rounded-2xl p-5 sm:p-8 shadow-sm border border-pink-50 text-start space-y-4">
+          <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
+            موني ستور هو وجهتك المفضلة للأزياء النسائية الفاخرة في مصر. نقدم لكِ تشكيلة واسعة من الملابس والإكسسوارات والعطور ومنتجات العناية بالبشرة والمكياج، كلها مختارة بعناية لتناسب ذوقك الراقي.
+          </p>
+          <p className="text-gray-600 text-xs sm:text-sm leading-relaxed" dir="ltr">
+            Mony Store is your premier destination for luxury women's fashion in Egypt. We offer a wide selection of clothing, accessories, perfumes, skincare, and makeup products, all carefully curated to match your refined taste.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6">
+            {[
+              { num: '10K+', label: isRTL ? 'عميلة سعيدة' : 'Happy Customers' },
+              { num: '500+', label: isRTL ? 'منتج' : 'Products' },
+              { num: '27', label: isRTL ? 'محافظة' : 'Governorates' },
+              { num: '4.9⭐', label: isRTL ? 'تقييم' : 'Rating' },
+            ].map((stat, i) => (
+              <div key={i} className="bg-pink-50 rounded-xl p-3 text-center">
+                <div className="text-lg sm:text-xl font-bold text-pink-600">{stat.num}</div>
+                <div className="text-[10px] sm:text-xs text-gray-500 mt-0.5">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WishlistSection({ onProductClick }: { onProductClick: (product: Product) => void }) {
+  const { wishlist } = useCart();
+  const { isRTL } = useLang();
+  const wishlistProducts = products.filter((p: Product) => wishlist.includes(p.id));
+
+  if (wishlistProducts.length === 0) {
+    return (
+      <div className="container mx-auto px-4 text-center py-12">
+        <div className="w-20 h-20 mx-auto mb-4 bg-pink-50 rounded-full flex items-center justify-center">
+          <span className="text-3xl">💕</span>
+        </div>
+        <h2 className="text-lg font-bold text-gray-800 mb-2">
+          {isRTL ? 'قائمة المفضلة فارغة' : 'Wishlist is empty'}
+        </h2>
+        <p className="text-sm text-gray-500">
+          {isRTL ? 'أضيفي منتجاتك المفضلة هنا' : 'Add your favorite products here'}
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container mx-auto px-3 sm:px-4">
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 text-center">
+        💕 {isRTL ? 'المفضلة' : 'My Wishlist'}
+      </h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+        {wishlistProducts.map((product: Product, i: number) => (
+          <ProductCard key={product.id} product={product} index={i} onProductClick={onProductClick} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <CartProvider>
+        <AppContent />
+      </CartProvider>
+    </LanguageProvider>
+  );
+}
